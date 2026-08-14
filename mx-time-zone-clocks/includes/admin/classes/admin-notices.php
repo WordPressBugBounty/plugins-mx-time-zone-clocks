@@ -13,7 +13,7 @@ class MXMTZCAdminNotices
 
         add_action('wp_ajax_olena_theme_notice_viewed', ['MXMTZCAdminNotices', 'ajax_olena_theme_notice_viewed']);
 
-        add_action('wp_ajax_mx-timezone-clocks_how_it_works_notice_viewed', ['MXMTZCAdminNotices', 'ajax_how_it_works_notice_viewed']);
+        add_action('wp_ajax_mx-time-zone-clock_how_it_works_notice_viewed', ['MXMTZCAdminNotices', 'ajax_how_it_works_notice_viewed']);
     }
 
     /**
@@ -39,10 +39,12 @@ class MXMTZCAdminNotices
         // Checked POST nonce is not empty
         if (empty($_POST['nonce'])) wp_die('0');
 
-        // Checked or nonce match
-        if (wp_verify_nonce($_POST['nonce'], 'mxmtzc_nonce_request_admin')) {
+        $mxmtzc_nonce = sanitize_text_field( wp_unslash( $_POST['nonce'] ) );
 
-            $noticeType = sanitize_text_field($_POST['notice']);
+        // Checked or nonce match
+        if (wp_verify_nonce( $mxmtzc_nonce, 'mxmtzc_nonce_request_admin')) {
+
+            $noticeType = isset( $_POST['notice'] ) ? sanitize_text_field( wp_unslash( $_POST['notice'] ) ) : '';
 
             if ($noticeType == 'hire_developer') {
                 update_option('mxmtzc_hire_developer', 'dismissed');
@@ -63,10 +65,9 @@ class MXMTZCAdminNotices
     public static function hireDeveloper()
     {
 
-        if (isset($_GET['page'])) {
+        $mxmtzc_current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-            if ($_GET['page'] == 'mxmtzc-mx-time-zone-clocks-menu') return;
-        }
+        if ( $mxmtzc_current_page === 'mxmtzc-mx-time-zone-clocks-menu' ) return;
 
         if (get_option('mxmtzc_hire_developer')) return;
 ?>
@@ -80,10 +81,9 @@ class MXMTZCAdminNotices
     public static function olenaTheme()
     {
 
-        if (isset($_GET['page'])) {
+        $mxmtzc_current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-            if ($_GET['page'] == 'mxmtzc-mx-time-zone-clocks-menu') return;
-        }
+        if ( $mxmtzc_current_page === 'mxmtzc-mx-time-zone-clocks-menu' ) return;
 
         if ('true' === get_user_meta(get_current_user_id(), '_olena_theme_install_notice_viewed', true)) return;
     ?>
@@ -98,14 +98,13 @@ class MXMTZCAdminNotices
     public static function howDoesItWorks()
     {
 
-        if (isset($_GET['page'])) {
+        $mxmtzc_current_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
-            if ($_GET['page'] == 'mxmtzc-mx-time-zone-clocks-menu') return;
-        }
+        if ( $mxmtzc_current_page === 'mxmtzc-mx-time-zone-clocks-menu' ) return;
 
         if ('true' === get_user_meta(get_current_user_id(), '_how_does_it_work_notice_viewed', true)) return;
     ?>
-        <div class="notice notice-success is-dismissible mx-timezone-clocks-notification">
+        <div class="notice notice-success is-dismissible mx-time-zone-clock-notification">
             <?php mxmtzc_include_view('components/how-does-it-works'); ?>
         </div>
 

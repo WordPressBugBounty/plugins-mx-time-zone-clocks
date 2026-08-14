@@ -79,19 +79,19 @@ final class MXMTZCMXTimeZoneClocks
 }
 
 // create a new instance of final class
-$final_class_instance = new MXMTZCMXTimeZoneClocks();
+$mxmtzc_final_class_instance = new MXMTZCMXTimeZoneClocks();
 
 // run core files
-$final_class_instance->mxmtzc_include();
+$mxmtzc_final_class_instance->mxmtzc_include();
 
 // include global part
-$final_class_instance->includeGlobalFeatures();
+$mxmtzc_final_class_instance->includeGlobalFeatures();
 
 // include admin part
-$final_class_instance->mxmtzc_include_admin_path();
+$mxmtzc_final_class_instance->mxmtzc_include_admin_path();
 
 // include frontend part
-$final_class_instance->mxmtzc_include_frontend_path();
+$mxmtzc_final_class_instance->mxmtzc_include_frontend_path();
 
 // include gutenberg part
-$final_class_instance->includeGutenbergPath();
+$mxmtzc_final_class_instance->includeGutenbergPath();

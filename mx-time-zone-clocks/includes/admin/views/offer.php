@@ -1,28 +1,29 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <div class="mx-main-page-text-wrap">
-	
-	<h1><?php echo __( 'Additional Plugins', 'mxmtzc-domain' ); ?></h1>
+
+	<h1><?php echo esc_html__( 'Additional Plugins', 'mx-time-zone-clock' ); ?></h1>
 
 		<nav class="mxmlb_admin_nav_bar">
-		
+
 		<ul>
 			<li class="">
-				<a href="<?php echo admin_url(); ?>admin.php?page=mxmtzc-mx-time-zone-clocks-menu">Main settings</a>			
+				<a href="<?php echo esc_url( admin_url() ); ?>admin.php?page=mxmtzc-mx-time-zone-clocks-menu">Main settings</a>
 			</li>
 			<li class="u">
-				<a href="<?php echo admin_url(); ?>admin.php?page=mx_clocks_additional_plugins">Additional Plugins</a>
+				<a href="<?php echo esc_url( admin_url() ); ?>admin.php?page=mx_clocks_additional_plugins">Additional Plugins</a>
 			</li>
 			<li class="mxmlb_active_item_menu mx-offer-link">
-				<a href="<?php echo admin_url(); ?>admin.php?page=mx_clocks_offer">Need help with WordPress?</a>
+				<a href="<?php echo esc_url( admin_url() ); ?>admin.php?page=mx_clocks_offer">Need help with WordPress?</a>
 			</li>
 		</ul>
 
 	</nav>
 
-	<h3><?php echo __( 'Do you need a Web Developer?', 'mxmtzc-domain' ); ?></h3>
+	<h3><?php echo esc_html__( 'Do you need a Web Developer?', 'mx-time-zone-clock' ); ?></h3>
 
 	<!-- display clock -->
 	<div class="mx-block_wrap mx-offer-block">
-	
+
 		<p>
 			Greetings! 🙂
 		</p>
@@ -32,9 +33,9 @@
 		</p>
 
 		<p>
-			Please contact me to discuss your problem and we’ll find a solution.
+			Please contact me to discuss your problem and we'll find a solution.
 		</p>
-		
+
 		<p>
 			Any questions, let me know!
 		</p>
@@ -45,7 +46,7 @@
 		</p>
 
 		<div class="mx-offer-image">
-			<a href="https://markomaksym.com.ua/" target="_blank"><img src="<?php echo MXMTZC_PLUGIN_URL; ?>includes/admin/assets/img/offer.jpg" alt=""></a>
+			<a href="https://markomaksym.com.ua/" target="_blank"><img src="<?php echo esc_url( MXMTZC_PLUGIN_URL ); ?>includes/admin/assets/img/offer.jpg" alt=""></a>
 		</div>
 
 		<a href="https://markomaksym.com.ua/" class="mx-offer-button" target="_blank">Visit Maksym's Website</a>

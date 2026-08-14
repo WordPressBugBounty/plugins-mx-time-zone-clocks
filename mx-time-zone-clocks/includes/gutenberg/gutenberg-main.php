@@ -17,6 +17,38 @@ class MXDFMTZCGutenberg
 
         // Server side rendering.
         add_action('init', [$this, 'serverSideRendering']);
+
+        // Load the clock engine inside the editor canvas iframe (apiVersion 3).
+        add_action('enqueue_block_assets', [$this, 'enqueueEditorIframeAssets']);
+    }
+
+    /**
+     * With apiVersion 3 the editor renders the block inside an iframe.
+     * Scripts enqueued on `enqueue_block_assets` are injected into that
+     * iframe, so the clock engine (jQuery + canvasClock + mxmtzcRunClocks)
+     * is available to initialize the ServerSideRender output there.
+     * On the frontend the engine is already enqueued via wp_enqueue_scripts,
+     * so we only need this in the admin/editor context.
+     */
+    public function enqueueEditorIframeAssets()
+    {
+
+        if (!is_admin()) {
+            return;
+        }
+
+        if (!wp_script_is('mxmtzc_script_frontend', 'registered')) {
+
+            wp_register_script(
+                'mxmtzc_script_frontend',
+                MXMTZC_PLUGIN_URL . 'assets/build/index.js',
+                ['jquery'],
+                MXMTZC_PLUGIN_VERSION,
+                false
+            );
+        }
+
+        wp_enqueue_script('mxmtzc_script_frontend');
     }
 
     // Server side rendering.
@@ -42,7 +74,7 @@ class MXDFMTZCGutenberg
         register_block_type(
             __DIR__ . '/build/mx-timezone-clock',
             [
-                'api_version'       => 2,
+                'api_version'       => 3,
                 'category'          => 'widgets',
                 'attributes'        => [
                     'clock_id'   => [
@@ -137,9 +169,9 @@ class MXDFMTZCGutenberg
 /**
  * Initialization.
  */
-$gutenbergClassInstance = new MXDFMTZCGutenberg();
+$mxmtzc_gutenberg_class_instance = new MXDFMTZCGutenberg();
 
 /**
  * Register custom Gutenberg blocks.
  */
-$gutenbergClassInstance->registerBlocks();
+$mxmtzc_gutenberg_class_instance->registerBlocks();

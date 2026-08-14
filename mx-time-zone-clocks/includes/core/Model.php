@@ -47,7 +47,12 @@ class MXMTZC_Model
 
 		}
 
-		$get_row = $this->wpdb->get_row( "SELECT $this->fields FROM $table_name WHERE $wher_name = $wher_value" );
+		$safe_fields = esc_sql( $this->fields );
+		$safe_table  = esc_sql( $table_name );
+		$safe_where  = esc_sql( $wher_name );
+		$sql         = "SELECT {$safe_fields} FROM {$safe_table} WHERE {$safe_where} = %s"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		$get_row = $this->wpdb->get_row( $this->wpdb->prepare( $sql, $wher_value ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 
 		return $get_row;
 		
@@ -67,15 +72,21 @@ class MXMTZC_Model
 
 		}
 
+		$safe_fields = esc_sql( $this->fields );
+		$safe_table  = esc_sql( $table_name );
+
 		if( $wher_name !== NULL ) {
 
-			$results = $this->wpdb->get_results( "SELECT $this->fields FROM $table_name WHERE $wher_name = $wher_value" );
+			$safe_where = esc_sql( $wher_name );
+			$sql        = "SELECT {$safe_fields} FROM {$safe_table} WHERE {$safe_where} = %s"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$results    = $this->wpdb->get_results( $this->wpdb->prepare( $sql, $wher_value ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 
 		} else {
 
-			$results = $this->wpdb->get_results( "SELECT $this->fields FROM $table_name" );
+			$sql     = "SELECT {$safe_fields} FROM {$safe_table}"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$results = $this->wpdb->get_results( $sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 
-		}		
+		}
 
 		return $results;
 		

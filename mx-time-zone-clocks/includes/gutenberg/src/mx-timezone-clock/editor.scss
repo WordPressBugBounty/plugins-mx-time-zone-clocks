@@ -1,4 +1,4 @@
-.mx-timezone-clocks-types {
+.mx-time-zone-clock-types {
 	display: flex;
 	flex-wrap: wrap;
 	&>div {
@@ -19,14 +19,14 @@
 	}
 }
 
-.mx-timezone-clocks-upload-image {
+.mx-time-zone-clock-upload-image {
 	display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: center;
     align-items: center;
     width: 100%;
-	& .mx-timezone-clocks-uploaded-image {
+	& .mx-time-zone-clock-uploaded-image {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 10px;

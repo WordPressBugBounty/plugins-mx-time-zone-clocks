@@ -1,30 +1,30 @@
-<?php 
+<?php
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$clean_str = str_replace( '/', '-', esc_attr($data['time_zone']) );
-$clock_id = 'mx-clock-' . strtolower( $clean_str ) . rand( 0, 1000 );
+$mxmtzc_clean_str = str_replace( '/', '-', esc_attr($data['time_zone']) );
+$mxmtzc_clock_id = 'mx-clock-' . strtolower( $mxmtzc_clean_str ) . wp_rand( 0, 1000 );
 
 if($data['clock_id'] !== '') {
-    $clock_id = esc_attr($data['clock_id']);
-} 
+    $mxmtzc_clock_id = esc_attr($data['clock_id']);
+}
 
 ?>
 
-<?php if( $clock_id !== '' ) : ?>
+<?php if( $mxmtzc_clock_id !== '' ) : ?>
 
     <style>
 
-        div.<?php echo esc_attr($clock_id); ?> *,
-        div.<?php echo esc_attr($clock_id); ?> {
+        div.<?php echo esc_attr($mxmtzc_clock_id); ?> *,
+        div.<?php echo esc_attr($mxmtzc_clock_id); ?> {
             font-size: <?php echo intval($data['clock_font_size']) . 'px !important;'; ?>
         }
 
-        div.<?php echo esc_attr($clock_id); ?> {
+        div.<?php echo esc_attr($mxmtzc_clock_id); ?> {
             text-align: <?php echo esc_attr($data['text_align']).';'; ?>
         }
-        
+
     </style>
 
 <?php endif; ?>
@@ -33,11 +33,11 @@ if($data['clock_id'] !== '') {
 
     <?php if( $data['clock_upload'] == 'false' ) : ?>
 
-        <div 
+        <div
             class='<?php echo esc_attr($data['clock_id']); ?> mx-clock-live-el'
-            data-bg-img-url='<?php echo MXMTZC_PLUGIN_URL; ?>includes/admin/assets/img/<?php echo esc_attr($data['clock_type']); ?>'
+            data-bg-img-url='<?php echo esc_url( MXMTZC_PLUGIN_URL ); ?>includes/admin/assets/img/<?php echo esc_attr($data['clock_type']); ?>'
             data-time_zone='<?php echo esc_attr($data['time_zone']); ?>'
-            data-city_name='<?php echo html_entity_decode(esc_attr($data['city_name'])); ?>'
+            data-city_name='<?php echo esc_attr($data['city_name']); ?>'
             data-date_format='<?php echo intval($data['time_format']); ?>'
             data-digital_clock='<?php echo esc_attr($data['digital_clock']); ?>'
             data-lang='<?php echo esc_attr($data['lang']); ?>'
@@ -53,11 +53,11 @@ if($data['clock_id'] !== '') {
 
     <?php else : ?>
 
-        <div 
+        <div
             class='<?php echo esc_attr($data['clock_id']); ?> mx-clock-live-el'
             data-bg-img-url='<?php echo esc_attr($data['clock_upload']); ?>'
             data-time_zone='<?php echo esc_attr($data['time_zone']); ?>'
-            data-city_name='<?php echo html_entity_decode(esc_attr($data['city_name'])); ?>'
+            data-city_name='<?php echo esc_attr($data['city_name']); ?>'
             data-date_format='<?php echo intval($data['time_format']); ?>'
             data-digital_clock='<?php echo esc_attr($data['digital_clock']); ?>'
             data-lang='<?php echo esc_attr($data['lang']); ?>'

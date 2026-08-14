@@ -85,7 +85,7 @@ class MXMTZC_Shortcode
 
 			$clean_str = str_replace( '/', '-', $time_zone );
 
-			$class_of_clock = 'mx-clock-' . strtolower( $clean_str ) . rand( 0, 1000 );
+			$class_of_clock = 'mx-clock-' . strtolower( $clean_str ) . wp_rand( 0, 1000 );
 
 			// show days
 			$show_days = 'false';
@@ -179,10 +179,10 @@ class MXMTZC_Shortcode
 
 					<style>
 
-						.<?php echo $class_of_clock; ?> * {
-							font-size: <?php echo $clock_font_size . 'px !important';?>
+						.<?php echo esc_attr( $class_of_clock ); ?> * {
+							font-size: <?php echo intval( $clock_font_size ) . 'px !important'; ?>
 						}
-						
+
 					</style>
 
 				<?php endif; ?>
@@ -190,37 +190,37 @@ class MXMTZC_Shortcode
 				<div class="mx-localize-time">
 
 					<?php if( $clock_upload == 'false' ) : ?>
-				
-						<div class='<?php echo $class_of_clock; ?> mx-clock-live-el'
-							data-bg-img-url='<?php echo MXMTZC_PLUGIN_URL; ?>includes/admin/assets/img/<?php echo $clock_type; ?>'
-							data-time_zone='<?php echo $time_zone; ?>'
-							data-city_name='<?php echo $city_name; ?>'
-							data-date_format='<?php echo $time_format; ?>'
-							data-digital_clock='<?php echo $digital_clock; ?>'
-							data-lang='<?php echo $lang; ?>'
-							data-lang_for_date='<?php echo $lang_for_date; ?>'
-							data-show_days='<?php echo $show_days; ?>'
-							data-showSecondHand='<?php echo $show_seconds; ?>'
-							data-arrow_type='<?php echo $arrow_type; ?>'
-							data-super_simple='<?php echo $super_simple; ?>'
-							data-arrows_color='<?php echo $arrows_color; ?>'
+
+						<div class='<?php echo esc_attr( $class_of_clock ); ?> mx-clock-live-el'
+							data-bg-img-url='<?php echo esc_url( MXMTZC_PLUGIN_URL ); ?>includes/admin/assets/img/<?php echo esc_attr( $clock_type ); ?>'
+							data-time_zone='<?php echo esc_attr( $time_zone ); ?>'
+							data-city_name='<?php echo esc_attr( $city_name ); ?>'
+							data-date_format='<?php echo esc_attr( $time_format ); ?>'
+							data-digital_clock='<?php echo esc_attr( $digital_clock ); ?>'
+							data-lang='<?php echo esc_attr( $lang ); ?>'
+							data-lang_for_date='<?php echo esc_attr( $lang_for_date ); ?>'
+							data-show_days='<?php echo esc_attr( $show_days ); ?>'
+							data-showSecondHand='<?php echo esc_attr( $show_seconds ); ?>'
+							data-arrow_type='<?php echo esc_attr( $arrow_type ); ?>'
+							data-super_simple='<?php echo esc_attr( $super_simple ); ?>'
+							data-arrows_color='<?php echo esc_attr( $arrows_color ); ?>'
 						></div>
 
 					<?php else : ?>
 
-						<div class='<?php echo $class_of_clock; ?> mx-clock-live-el' 
-							data-bg-img-url='<?php echo $clock_upload; ?>'
-							data-time_zone='<?php echo $time_zone; ?>'
-							data-city_name='<?php echo $city_name; ?>'
-							data-date_format='<?php echo $time_format; ?>'
-							data-digital_clock='<?php echo $digital_clock; ?>'
-							data-lang='<?php echo $lang; ?>'
-							data-lang_for_date='<?php echo $lang_for_date; ?>'
-							data-show_days='<?php echo $show_days; ?>'
-							data-showSecondHand='<?php echo $show_seconds; ?>'
-							data-arrow_type='<?php echo $arrow_type; ?>'
-							data-super_simple='<?php echo $super_simple; ?>'
-							data-arrows_color='<?php echo $arrows_color; ?>'
+						<div class='<?php echo esc_attr( $class_of_clock ); ?> mx-clock-live-el'
+							data-bg-img-url='<?php echo esc_attr( $clock_upload ); ?>'
+							data-time_zone='<?php echo esc_attr( $time_zone ); ?>'
+							data-city_name='<?php echo esc_attr( $city_name ); ?>'
+							data-date_format='<?php echo esc_attr( $time_format ); ?>'
+							data-digital_clock='<?php echo esc_attr( $digital_clock ); ?>'
+							data-lang='<?php echo esc_attr( $lang ); ?>'
+							data-lang_for_date='<?php echo esc_attr( $lang_for_date ); ?>'
+							data-show_days='<?php echo esc_attr( $show_days ); ?>'
+							data-showSecondHand='<?php echo esc_attr( $show_seconds ); ?>'
+							data-arrow_type='<?php echo esc_attr( $arrow_type ); ?>'
+							data-super_simple='<?php echo esc_attr( $super_simple ); ?>'
+							data-arrows_color='<?php echo esc_attr( $arrows_color ); ?>'
 						></div>
 
 					<?php endif; ?>

@@ -99,16 +99,16 @@ class MXMTZC_Admin_Main
 }
 
 // Initialize
-$initialize_admin_class = new MXMTZC_Admin_Main();
+$mxmtzc_admin_class_instance = new MXMTZC_Admin_Main();
 
 // include classes
-$initialize_admin_class->mxmtzc_additional_classes();
+$mxmtzc_admin_class_instance->mxmtzc_additional_classes();
 
 // include models
-$initialize_admin_class->mxmtzc_models_collection();
+$mxmtzc_admin_class_instance->mxmtzc_models_collection();
 
 // ajax requests
-$initialize_admin_class->mxmtzc_registration_ajax_actions();
+$mxmtzc_admin_class_instance->mxmtzc_registration_ajax_actions();
 
 // include controllers
-$initialize_admin_class->mxmtzc_routes_collection();
+$mxmtzc_admin_class_instance->mxmtzc_routes_collection();

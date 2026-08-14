@@ -1,24 +1,25 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 <div class="mx-main-page-text-wrap">
 
-	<h1><?php echo __('Additional Plugins', 'mxmtzc-domain'); ?></h1>
+	<h1><?php echo esc_html__('Additional Plugins', 'mx-time-zone-clock'); ?></h1>
 
 	<nav class="mxmlb_admin_nav_bar">
 
 		<ul>
 			<li class="">
-				<a href="<?php echo admin_url(); ?>admin.php?page=mxmtzc-mx-time-zone-clocks-menu">Main settings</a>
+				<a href="<?php echo esc_url( admin_url() ); ?>admin.php?page=mxmtzc-mx-time-zone-clocks-menu">Main settings</a>
 			</li>
 			<li class="mxmlb_active_item_menu">
-				<a href="<?php echo admin_url(); ?>admin.php?page=mx_clocks_additional_plugins">Additional Plugins</a>
+				<a href="<?php echo esc_url( admin_url() ); ?>admin.php?page=mx_clocks_additional_plugins">Additional Plugins</a>
 			</li>
 			<li class=" mx-offer-link">
-				<a href="<?php echo admin_url(); ?>admin.php?page=mx_clocks_offer">Need help with WordPress?</a>
+				<a href="<?php echo esc_url( admin_url() ); ?>admin.php?page=mx_clocks_offer">Need help with WordPress?</a>
 			</li>
 		</ul>
 
 	</nav>
 
-	<h3><?php echo __('You may be interested in my other plugins', 'mxmtzc-domain'); ?></h3>
+	<h3><?php echo esc_html__('You may be interested in my other plugins', 'mx-time-zone-clock'); ?></h3>
 
 	<!-- display clock -->
 	<div class="mx-block_wrap">

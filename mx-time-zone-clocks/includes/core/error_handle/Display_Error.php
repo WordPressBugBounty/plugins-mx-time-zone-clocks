@@ -27,7 +27,7 @@ class MXMTZC_Display_Error
 
 			<div class="notice notice-error is-dismissible">
 
-			    <p><?php echo $this->mxmtzc_error_notice; ?></p>
+			    <p><?php echo esc_html( $this->mxmtzc_error_notice ); ?></p>
 			    
 			</div>
 		    

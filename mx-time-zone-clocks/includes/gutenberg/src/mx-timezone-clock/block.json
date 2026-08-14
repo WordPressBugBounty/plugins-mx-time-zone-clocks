@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "mxdfmtzc/mx-timezone-clock",
 	"version": "0.1.3",
 	"title": "MX Timezone Clock",
@@ -80,7 +80,7 @@
 			"default": "center"
 		}
 	},
-	"textdomain": "mxmtzc-domain",
+	"textdomain": "mx-time-zone-clock",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css"

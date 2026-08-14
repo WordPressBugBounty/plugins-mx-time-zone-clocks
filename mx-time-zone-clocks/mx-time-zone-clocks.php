@@ -4,8 +4,10 @@ Plugin Name: MX Time Zone Clocks
 Plugin URI: https://github.com/Maksym-Marko/mx-time-zone-clock
 Description: Add timezone clocks to your website.
 Author: Maksym Marko
-Version: 5.1.1
+Version: 5.2.1
 Author URI: https://markomaksym.com.ua/
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 // Exit if accessed directly
@@ -109,17 +111,5 @@ register_deactivation_hook( __FILE__, array( 'MXMTZC_Basis_Plugin_Class', 'deact
 if ( ! class_exists( 'MXMTZCMXTimeZoneClocks' ) ) {
 
 	require_once plugin_dir_path( __FILE__ ) . 'includes/final-class.php';
-
-	/*
-	* Translate plugin
-	*/
-	add_action( 'plugins_loaded', 'mxmtzc_translate' );
-
-	function mxmtzc_translate()
-	{
-
-		load_plugin_textdomain( 'mxmtzc-domain', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
-	}
 
 }

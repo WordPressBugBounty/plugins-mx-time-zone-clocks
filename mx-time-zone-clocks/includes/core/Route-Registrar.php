@@ -169,8 +169,8 @@ class MXMTZC_Route_Registrar
         
         // create a settings menu
         add_options_page(
-            __( $this->properties['page_title'], 'mxmtzc-domain' ),
-            __( $this->properties['menu_title'], 'mxmtzc-domain' ),
+            $this->properties['page_title'],
+            $this->properties['menu_title'],
             $this->properties['capability'],
             $this->sub_menu_slug,
             [ $this, 'mxmtzc_view_connector' ]
@@ -180,7 +180,7 @@ class MXMTZC_Route_Registrar
         public function create_settings_link( $links )
         { 
 
-            $settingsLink = '<a href="' . get_admin_url() . 'admin.php?page=' . $this->sub_menu_slug . '">' . __( $this->properties['menu_title'], 'mxmtzc-domain' ) . '</a>'; // options-general.php
+            $settingsLink = '<a href="' . esc_url( get_admin_url() ) . 'admin.php?page=' . esc_attr( $this->sub_menu_slug ) . '">' . esc_html( $this->properties['menu_title'] ) . '</a>'; // options-general.php
 
             array_push( $links, $settingsLink );
 
@@ -194,8 +194,8 @@ class MXMTZC_Route_Registrar
 	public function mxmtzc_create_admin_main_menu()
 	{
 
-		add_menu_page( __( $this->properties['page_title'], 'mxmtzc-domain' ),
-			 __( $this->properties['menu_title'], 'mxmtzc-domain' ),
+		add_menu_page( $this->properties['page_title'],
+			 $this->properties['menu_title'],
 			 $this->properties['capability'],
 			 $this->slug,
 			 array( $this, 'mxmtzc_view_connector' ),
@@ -212,8 +212,8 @@ class MXMTZC_Route_Registrar
 		
 		// create a menu
 		add_submenu_page( $this->slug,
-			 __( $this->properties['page_title'], 'mxmtzc-domain' ),
-			 __( $this->properties['menu_title'], 'mxmtzc-domain' ),
+			 $this->properties['page_title'],
+			 $this->properties['menu_title'],
 			 $this->properties['capability'],
 			 $this->sub_menu_slug,
 			 array( $this, 'mxmtzc_view_connector' )

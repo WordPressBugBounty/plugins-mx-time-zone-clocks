@@ -29,7 +29,7 @@ class MXMTZC_FrontEnd_Main
 }
 
 // Initialize
-$initialize_admin_class = new MXMTZC_FrontEnd_Main();
+$mxmtzc_frontend_class_instance = new MXMTZC_FrontEnd_Main();
 
 // include classes
-$initialize_admin_class->mxmtzc_additional_classes();
+$mxmtzc_frontend_class_instance->mxmtzc_additional_classes();

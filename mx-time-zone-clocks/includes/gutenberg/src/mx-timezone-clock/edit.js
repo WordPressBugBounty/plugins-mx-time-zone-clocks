@@ -3,7 +3,7 @@ import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from 
 import ServerSideRender from '@wordpress/server-side-render';
 import { Panel, PanelBody, PanelRow, SelectControl, TextControl, ColorPicker, Button } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import './editor.scss';
 import metadata from './block.json';
 import timezones from 'timezones-list';
@@ -14,6 +14,10 @@ import { v4 as uuidv4 } from 'uuid';
 export default function Edit({ attributes, setAttributes }) {
 
 	const blockProps = useBlockProps();
+
+	// Ref to the ServerSideRender wrapper so we can initialize the clock
+	// inside its own document (the editor renders inside an iframe on apiVersion 3).
+	const clockWrapRef = useRef();
 
 	// time zones
 	const formattedTimezones = [];
@@ -123,13 +127,28 @@ export default function Edit({ attributes, setAttributes }) {
 
 	useEffect(() => {
 
-		if(typeof mxmtzcRunClocks == 'object') {
+		const timer = setTimeout(() => {
 
-			setTimeout(() => {
+			const node = clockWrapRef.current;
 
-				mxmtzcRunClocks.initClockById('.'+attributes.clock_id);
-			}, 2000);
-		}
+			if (!node) {
+				return;
+			}
+
+			// The clock markup lives in the block's own document. In the editor
+			// that is the iframe document, so resolve jQuery/mxmtzcRunClocks from
+			// the element's window rather than the parent editor window.
+			const frameWindow = node.ownerDocument.defaultView;
+			const runner = frameWindow.mxmtzcRunClocks;
+			const jq = frameWindow.jQuery;
+
+			if (typeof runner === 'object' && typeof jq === 'function') {
+
+				runner.initClock(jq(node).find('.mx-clock-live-el'));
+			}
+		}, 2000);
+
+		return () => clearTimeout(timer);
 	}, [attributes]);
 
 	return [
@@ -137,11 +156,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<Panel header="Clock Properties">
 				
-				<PanelBody title={__('Time Zone', 'mxmtzc-domain')} initialOpen={true}>
+				<PanelBody title={__('Time Zone', 'mx-time-zone-clock')} initialOpen={true}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(time_zone) => setAttributes({ time_zone })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.time_zone}
 							options={formattedTimezones}
@@ -150,10 +170,11 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				<PanelBody title={__('City Name', 'mxmtzc-domain')} initialOpen={true}>
+				<PanelBody title={__('City Name', 'mx-time-zone-clock')} initialOpen={true}>
 					
 					<PanelRow>
 						<TextControl
+							__next40pxDefaultSize
 							value={attributes.city_name}
 							onChange={(city_name) => setAttributes({ city_name })}
 						/>
@@ -161,11 +182,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				<PanelBody title={__('Time Format', 'mxmtzc-domain')} initialOpen={false}>
+				<PanelBody title={__('Time Format', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(time_format) => setAttributes({ time_format })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.time_format}
 							options={[
@@ -183,20 +205,21 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				<PanelBody title={__('Digital Clock', 'mxmtzc-domain')} initialOpen={false}>
+				<PanelBody title={__('Digital Clock', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(digital_clock) => setAttributes({ digital_clock })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.digital_clock}
 							options={[
 								{
-									label: __('Yes', 'mxmtzc-domain'),
+									label: __('Yes', 'mx-time-zone-clock'),
 									value: 'true'
 								},
 								{
-									label: __('No', 'mxmtzc-domain'),
+									label: __('No', 'mx-time-zone-clock'),
 									value: 'false'
 								}
 							]}
@@ -205,11 +228,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				<PanelBody title={__('Show Date', 'mxmtzc-domain')} initialOpen={false}>
+				<PanelBody title={__('Show Date', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(show_days) => setAttributes({ show_days })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.show_days}
 							options={[
@@ -227,11 +251,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				{ attributes.show_days === 'true' ? <PanelBody title={__('Date Language', 'mxmtzc-domain')} initialOpen={false}>
+				{ attributes.show_days === 'true' ? <PanelBody title={__('Date Language', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(lang_for_date) => setAttributes({ lang_for_date })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.lang_for_date}
 							options={formattedLocales}
@@ -239,16 +264,17 @@ export default function Edit({ attributes, setAttributes }) {
 					</PanelRow>
 
 					<PanelRow>
-						<small>{__('* Not all the languages are supported by the clock.', 'mxmtzc-domain')}</small>
+						<small>{__('* Not all the languages are supported by the clock.', 'mx-time-zone-clock')}</small>
 					</PanelRow>				
 
 				</PanelBody> : '' }				
 
-				<PanelBody title={__('Clock Font Size', 'mxmtzc-domain')} initialOpen={false}>
+				<PanelBody title={__('Clock Font Size', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(clock_font_size) => setAttributes({ clock_font_size })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.clock_font_size}
 							options={formattedFontSizes}
@@ -257,11 +283,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				<PanelBody title={__('Text Align', 'mxmtzc-domain')} initialOpen={false}>
+				<PanelBody title={__('Text Align', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(text_align) => setAttributes({ text_align })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.text_align}
 							options={[
@@ -283,11 +310,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				<PanelBody title={__('Show Seconds', 'mxmtzc-domain')} initialOpen={false}>
+				<PanelBody title={__('Show Seconds', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(show_seconds) => setAttributes({ show_seconds })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.show_seconds}
 							options={[
@@ -305,11 +333,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				<PanelBody title={__('Super Simple', 'mxmtzc-domain')} initialOpen={false}>
+				<PanelBody title={__('Super Simple', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(super_simple) => setAttributes({ super_simple })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.super_simple}
 							options={[
@@ -327,11 +356,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody>
 
-				{ attributes.super_simple === 'false' && attributes.digital_clock == 'false' ? <PanelBody title={__('Arrow Type', 'mxmtzc-domain')} initialOpen={false}>
+				{ attributes.super_simple === 'false' && attributes.digital_clock == 'false' ? <PanelBody title={__('Arrow Type', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						<SelectControl
 							onChange={(arrow_type) => setAttributes({ arrow_type })}
+							__next40pxDefaultSize
 							__nextHasNoMarginBottom
 							value={attributes.arrow_type}
 							options={[
@@ -349,7 +379,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 				</PanelBody> : '' }
 
-				{ attributes.super_simple === 'false' && attributes.digital_clock == 'false' ? <PanelBody title={__('Arrows Color', 'mxmtzc-domain')} initialOpen={false}>
+				{ attributes.super_simple === 'false' && attributes.digital_clock == 'false' ? <PanelBody title={__('Arrows Color', 'mx-time-zone-clock')} initialOpen={false}>
 					
 					<PanelRow>
 						
@@ -363,19 +393,19 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody> : '' }
 
 				{typeof mxdfmtzc_localizer === 'object' && mxdfmtzc_localizer.hasOwnProperty('image_folder') && attributes.super_simple === 'false' && attributes.digital_clock == 'false' ? (
-					<PanelBody title={__('Clock Type', 'mxmtzc-domain')} initialOpen={false}>
+					<PanelBody title={__('Clock Type', 'mx-time-zone-clock')} initialOpen={false}>
 						
 						<PanelRow>
 							
-							<div className="mx-timezone-clocks-types">
+							<div className="mx-time-zone-clock-types">
 								{imageNames.map((image, index) => {
 									return (<div key={index}>
-										<label htmlFor={'mx-timezone-clocks-type'+index}>
+										<label htmlFor={'mx-time-zone-clock-type'+index}>
 											<img src={mxdfmtzc_localizer.image_folder + image} />
 											<input 
 												type="radio" 
-												name="mx-timezone-clocks-type"
-												id={'mx-timezone-clocks-type'+index}
+												name="mx-time-zone-clock-type"
+												id={'mx-time-zone-clock-type'+index}
 												value={image}
 												onChange={e => {
 													setAttributes({ 
@@ -399,11 +429,11 @@ export default function Edit({ attributes, setAttributes }) {
 				) : ''}
 
 				{
-					attributes.super_simple === 'false' && attributes.digital_clock == 'false' ? <PanelBody title={__('Upload Clock', 'mxmtzc-domain')} initialOpen={false}>
+					attributes.super_simple === 'false' && attributes.digital_clock == 'false' ? <PanelBody title={__('Upload Clock', 'mx-time-zone-clock')} initialOpen={false}>
 					
 						<PanelRow>
 
-							<div className="mx-timezone-clocks-upload-image">
+							<div className="mx-time-zone-clock-upload-image">
 
 								<MediaUploadCheck>
 									<MediaUpload
@@ -426,7 +456,7 @@ export default function Edit({ attributes, setAttributes }) {
 								<div>
 									{attributes?.clock_upload && attributes?.clock_upload !== 'false' ? (
 
-										<div className="mx-timezone-clocks-uploaded-image">
+										<div className="mx-time-zone-clock-uploaded-image">
 
 											<img src={attributes.clock_upload} id={attributes.mediaId} />
 
@@ -447,7 +477,7 @@ export default function Edit({ attributes, setAttributes }) {
 									) : (
 									<>
 										<h3>No image!</h3>
-										<small>{__('* The best size is 120x120px. The best format is .png', 'mxmtzc-domain')}</small>
+										<small>{__('* The best size is 120x120px. The best format is .png', 'mx-time-zone-clock')}</small>
 									</>)}	
 								</div>
 
@@ -461,14 +491,16 @@ export default function Edit({ attributes, setAttributes }) {
 			</Panel>
 
 		</InspectorControls>,
-		<div 
+		<div
 			key="mx-render"
 			{...blockProps}
 		>
-			<ServerSideRender
-				block={metadata.name}
-				attributes={attributes}
-			></ServerSideRender>
+			<div ref={clockWrapRef}>
+				<ServerSideRender
+					block={metadata.name}
+					attributes={attributes}
+				></ServerSideRender>
+			</div>
 		</div>
 	];
 }

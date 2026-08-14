@@ -3,9 +3,9 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-    $message = esc_html__('If you are looking for a brand new animated WordPress theme, please check Olena Theme. Here is a short video:', 'mxmtzc-domain');
-    $button_url = esc_url('https://olena-theme.com.ua/');
-    $button_text = 'Download Olena Theme';
+    $mxmtzc_olena_message     = esc_html__('If you are looking for a brand new animated WordPress theme, please check Olena Theme. Here is a short video:', 'mx-time-zone-clock');
+    $mxmtzc_olena_button_url  = esc_url('https://olena-theme.com.ua/');
+    $mxmtzc_olena_button_text = 'Download Olena Theme';
 ?>
 <style>
     .olena-notification-wrapper {
@@ -55,20 +55,17 @@ if (!defined('ABSPATH')) exit;
 </style>
 
 <div class="olena-notification-wrapper">
-    <div class="olena-notification-image">
-        <img src="https://olena-theme.com.ua/wp-content/themes/olena/assets/images/logo.png" alt="<?php echo esc_attr__('Get Olena Theme', 'olena'); ?>" />
-    </div>
     <div class="olena-notification-content">
-        <h3><?php echo esc_html__('Thanks for using MX Time Zone Clocks plugin!', 'olena'); ?></h3>
-        <p><?php echo esc_html($message); ?></p>
+        <h3><?php echo esc_html__('Thanks for using MX Time Zone Clocks plugin!', 'mx-time-zone-clock'); ?></h3>
+        <p><?php echo esc_html( $mxmtzc_olena_message ); ?></p>
 
         <div>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/XVh9RvAKRWo?si=0pf9m27-tf3hqoxS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
 
-        <a href="https://olena-theme.com.ua/" target="_blank"><?php echo esc_html__('View live demo of Olena theme', 'olena'); ?></a>
+        <a href="https://olena-theme.com.ua/" target="_blank"><?php echo esc_html__('View live demo of Olena theme', 'mx-time-zone-clock'); ?></a>
         <div class="olena-notification-install-button-wrapp">
-            <a class="olena-notification-install-button" href="<?php echo esc_attr($button_url); ?>" target="_blank"><?php echo esc_html($button_text); ?></a>
+            <a class="olena-notification-install-button" href="<?php echo esc_attr( $mxmtzc_olena_button_url ); ?>" target="_blank"><?php echo esc_html( $mxmtzc_olena_button_text ); ?></a>
         </div>
     </div>
 </div>

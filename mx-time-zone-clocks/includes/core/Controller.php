@@ -14,7 +14,7 @@ abstract class MXMTZC_Controller
 	*/
 	public function __call( $name, $arguments ) {
 
-		echo 'Missing method "' . $name . '"!';
+		echo esc_html( 'Missing method "' . $name . '"!' );
 
 	}
 	
